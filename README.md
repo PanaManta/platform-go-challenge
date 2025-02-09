@@ -33,8 +33,6 @@ Good luck, potential colleague!
 
 ## PanaManta implementation
 
-Decided to go with a solution without any persistent storage. The data for audiences, insights, charts are generated during runtime.
-
 ### How to run
 
 ```bash
@@ -188,3 +186,15 @@ As a POC there is a test added for the controller. The tests can be exectued wit
 ```bash
 make test
 ```
+
+### About the solution
+
+The application provides an API for handling the creation, deletion, and listing of user favorites by abstracting the following key layers:
+
+- Controllers: Handle API requests and responses, offering endpoints for adding, removing, and listing favorites.
+- Services: Apply business logic by interacting with the repository layer to save, list, or delete data (abstracted).
+- Repositories: Manage data storage, in this case using an in-memory map structure (abstracted).
+
+Both the service and repository layers were abstracted using Go interfaces, making it easy to extend and integrate new storage solutions or modify business logic without changing the controller layer. This also makes the application more testable.
+
+The application includes authentication middleware, ensuring API security by verifying users through JWT tokens, allowing only authorized requests to interact with user data.

@@ -67,7 +67,7 @@ func (c *FavoritesController) AddUserFavorite(ctx *gin.Context) {
 // @Param Authorization header string true "Authorization header with Bearer token"
 // @Param asset_id path string true "Asset ID to be added as a favorite"
 // @Success 200 {object} viewmodels.FavoriteViewActionResponse "Deleted entry"
-// @Router /api/favorites/{asset_id} [post]
+// @Router /api/favorites/{asset_id} [delete]
 func (c *FavoritesController) DeleteUserFavorite(ctx *gin.Context) {
 	userId, _ := ctx.Get("user_id")
 	assetId := ctx.Param("asset_id")

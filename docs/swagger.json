@@ -41,6 +41,43 @@
         },
         "/api/favorites/{asset_id}": {
             "post": {
+                "description": "Adds a user favorite in the repository",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorites"
+                ],
+                "summary": "Add User Favorite in the temporary repository",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization header with Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Asset ID to be added as a favorite",
+                        "name": "asset_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Added entry",
+                        "schema": {
+                            "$ref": "#/definitions/viewmodels.FavoriteViewActionResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
                 "description": "Deletes a user favorite in the repository",
                 "consumes": [
                     "application/json"

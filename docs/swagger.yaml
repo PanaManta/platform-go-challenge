@@ -46,7 +46,7 @@ paths:
       tags:
       - favorites
   /api/favorites/{asset_id}:
-    post:
+    delete:
       consumes:
       - application/json
       description: Deletes a user favorite in the repository
@@ -69,6 +69,31 @@ paths:
           schema:
             $ref: '#/definitions/viewmodels.FavoriteViewActionResponse'
       summary: Delete User Favorite in the temporary repository
+      tags:
+      - favorites
+    post:
+      consumes:
+      - application/json
+      description: Adds a user favorite in the repository
+      parameters:
+      - description: Authorization header with Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Asset ID to be added as a favorite
+        in: path
+        name: asset_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Added entry
+          schema:
+            $ref: '#/definitions/viewmodels.FavoriteViewActionResponse'
+      summary: Add User Favorite in the temporary repository
       tags:
       - favorites
 swagger: "2.0"

@@ -1,6 +1,9 @@
 package viewmodels
 
-import "platform-go-challenge/internal/models"
+import (
+	"platform-go-challenge/internal/models"
+	"platform-go-challenge/internal/services"
+)
 
 type FavoriteView struct {
 	AssetId     string `json:"asset_id"`
@@ -13,6 +16,15 @@ type FavoriteViewActionResponse struct {
 	AssetId string `json:"asset_id"`
 	Status  string `json:"status"`
 	Message string `json:"message"`
+}
+
+func MapToFavoriteViews(populatedFavorites []services.PopulatedUserFavorite) []FavoriteView {
+	result := make([]FavoriteView, len(populatedFavorites))
+	for i, populatedFavorite := range populatedFavorites {
+		result[i] = ToFavoriteView(populatedFavorite.Favorite, populatedFavorite.Asset)
+	}
+
+	return result
 }
 
 func ToFavoriteView(userFavorite models.Favorite, asset models.Asset) FavoriteView {

@@ -31,11 +31,7 @@ func (c *FavoritesController) GetUserFavorites(ctx *gin.Context) {
 	userId, _ := ctx.Get("user_id")
 	userPopulatedFavorites := c.UserFavoritesService.GetUserFavorites(userId.(string))
 
-	response := make([]viewmodels.FavoriteView, len(userPopulatedFavorites))
-	for i, populatedFavorite := range userPopulatedFavorites {
-		response[i] = viewmodels.ToFavoriteView(populatedFavorite.Favorite, populatedFavorite.Asset)
-	}
-
+	response := viewmodels.MapToFavoriteViews(userPopulatedFavorites)
 	ctx.JSON(http.StatusOK, response)
 }
 

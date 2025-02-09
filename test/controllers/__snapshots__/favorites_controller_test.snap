@@ -1,0 +1,12 @@
+
+[TestGetUserFavorites - 1]
+[{"asset_id":"asset123","type":"insight","description":"Description","Data":{"text":"mocked insight"}}]
+---
+
+[TestAddUserFavorite - 1]
+{"asset_id":"asset123","status":"success","message":"Favorite added successfully"}
+---
+
+[TestDeleteUserFavorite - 1]
+{"asset_id":"asset123","status":"success","message":"Favorite deleted successfully"}
+---

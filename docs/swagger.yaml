@@ -1,0 +1,74 @@
+definitions:
+  viewmodels.FavoriteView:
+    properties:
+      asset_id:
+        type: string
+      data: {}
+      description:
+        type: string
+      type:
+        type: string
+    type: object
+  viewmodels.FavoriteViewActionResponse:
+    properties:
+      asset_id:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/favorites:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all the favorites for the user. Requires a valid user
+        JWT in the Authorization header.
+      parameters:
+      - description: Authorization header with Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of user favorites
+          schema:
+            items:
+              $ref: '#/definitions/viewmodels.FavoriteView'
+            type: array
+      summary: Get User Favorites
+      tags:
+      - favorites
+  /api/favorites/{asset_id}:
+    post:
+      consumes:
+      - application/json
+      description: Deletes a user favorite in the repository
+      parameters:
+      - description: Authorization header with Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Asset ID to be added as a favorite
+        in: path
+        name: asset_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deleted entry
+          schema:
+            $ref: '#/definitions/viewmodels.FavoriteViewActionResponse'
+      summary: Delete User Favorite in the temporary repository
+      tags:
+      - favorites
+swagger: "2.0"

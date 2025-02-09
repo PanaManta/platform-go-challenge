@@ -1,0 +1,5 @@
+{
+  "PORT": "6789",
+  "DATABASE_URL": "test_db_url",
+  "JWT_SIGNATURE_SECRET": "---...---"
+}

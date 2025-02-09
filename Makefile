@@ -8,8 +8,13 @@ SWAGGER=github.com/swaggo/swag/cmd/swag
 .PHONY: all
 all: build
 
+.PHONY: install
+install:
+	@echo "Installing dependencies..."
+	$(GO) mod tidy
+
 .PHONY: build
-build:
+build: install
 	@echo "Building the Go application..."
 	$(GO) build -o $(BUILD_DIR)/$(BINARY_NAME) $(SRC_DIR)
 
@@ -18,25 +23,21 @@ run: build
 	@echo "Running the Go application..."
 	$(BUILD_DIR)/$(BINARY_NAME)
 
+# Directly start the go application
+.PHONY: start
+start:
+	@echo "Starting the Go application..."
+	$(BUILD_DIR)/$(BINARY_NAME)
+
 .PHONY: clean
 clean:
 	@echo "Cleaning up build files..."
 	rm -rf $(BUILD_DIR)
 
-.PHONY: lint
-lint:
-	@echo "Running Go lint..."
-	golangci-lint run
-
 .PHONY: test
 test:
 	@echo "Running tests..."
 	$(GO) test ./test/...
-
-.PHONY: install
-install:
-	@echo "Installing dependencies..."
-	$(GO) mod tidy
 
 .PHONY: docs
 docs:

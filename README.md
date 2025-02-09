@@ -32,3 +32,159 @@ Just create a fork from the current repo and send it to us!
 Good luck, potential colleague!
 
 ## PanaManta implementation
+
+Decided to go with a solution without any persistent storage. The data for audiences, insights, charts are generated during runtime.
+
+### How to run
+
+```bash
+docker-compose up
+```
+
+### How to Stop
+
+```bash
+docker-compose down
+```
+
+### Playground via Swagger
+
+1. Access swagger via `http://localhost:6789/swagger/index.html`
+
+2. For every endpoint a JWT is required in the Authorization header, for testing purposes please use the following input:
+
+```
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE
+```
+
+3. Add favorites in the list of favorites for the above user with user_id: "user_id" providing the "asset_id". (there is no uniqueness check)
+
+4. List favorites for the specified user (generates random data for assets)
+
+5. Delete favorite from the list.
+
+6. Repeat :-)
+
+### Example using CURL
+
+1. Add 2 new favorite assets with asset_id: "new_asset_id_1" and "new_asset_id_2" to the user
+
+```bash
+curl 'http://localhost:6789/api/favorites/new_asset_id_1' -X POST -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE'
+curl 'http://localhost:6789/api/favorites/new_asset_id_2' -X POST -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE'
+curl 'http://localhost:6789/api/favorites/new_asset_id_3' -X POST -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE'
+```
+
+Example response (only for the first similar for the others):
+
+```json
+{ "asset_id": "new_asset_id_1", "status": "success", "message": "Favorite added successfully" }
+```
+
+2. Get the favorite list for the user with "user_id"
+
+```bash
+curl 'http://localhost:6789/api/favorites' -X GET -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE'
+```
+
+Example response:
+
+```json
+[
+  {
+    "asset_id": "new_asset_id_1",
+    "type": "chart",
+    "description": "Sample description for chart",
+    "data": {
+      "title": "Sample Sales Chart",
+      "x_axis": "Months",
+      "y_axis": "Sales",
+      "data": [
+        { "x": 0, "y": 96.16154559908952 },
+        { "x": 1, "y": 69.51993085200164 },
+        { "x": 2, "y": 3.271948112824879 },
+        { "x": 3, "y": 35.875388397271976 },
+        { "x": 4, "y": 17.167473956573303 }
+      ]
+    }
+  },
+  {
+    "asset_id": "new_asset_id_2",
+    "type": "audience",
+    "description": "Audience Characteristics",
+    "data": { "gender": "Male", "birth_country": "", "age_group": "18-24", "hours_on_social": 40, "num_purchases": 4 }
+  },
+  {
+    "asset_id": "new_asset_id_3",
+    "type": "chart",
+    "description": "Sample description for chart",
+    "data": {
+      "title": "Sample Sales Chart",
+      "x_axis": "Months",
+      "y_axis": "Sales",
+      "data": [
+        { "x": 0, "y": 67.97187761231045 },
+        { "x": 1, "y": 10.258607352271653 },
+        { "x": 2, "y": 16.79030354393333 },
+        { "x": 3, "y": 81.51733719685035 },
+        { "x": 4, "y": 78.80897278925454 }
+      ]
+    }
+  }
+]
+```
+
+3. Delete new_asset_id_2 favorite from the user
+
+```bash
+curl -X 'DELETE' 'http://localhost:6789/api/favorites/new_asset_id_2' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl9pZCJ9.teXQpw7iYuXrJ5pKptCgnpt69kaB36tsgtZp8lvdVqE'
+```
+
+4. Get the updated favorite list for the user
+
+```json
+[
+  {
+    "asset_id": "new_asset_id_1",
+    "type": "chart",
+    "description": "Sample description for chart",
+    "data": {
+      "title": "Sample Sales Chart",
+      "x_axis": "Months",
+      "y_axis": "Sales",
+      "data": [
+        { "x": 0, "y": 96.16154559908952 },
+        { "x": 1, "y": 69.51993085200164 },
+        { "x": 2, "y": 3.271948112824879 },
+        { "x": 3, "y": 35.875388397271976 },
+        { "x": 4, "y": 17.167473956573303 }
+      ]
+    }
+  },
+  {
+    "asset_id": "new_asset_id_3",
+    "type": "chart",
+    "description": "Sample description for chart",
+    "data": {
+      "title": "Sample Sales Chart",
+      "x_axis": "Months",
+      "y_axis": "Sales",
+      "data": [
+        { "x": 0, "y": 67.97187761231045 },
+        { "x": 1, "y": 10.258607352271653 },
+        { "x": 2, "y": 16.79030354393333 },
+        { "x": 3, "y": 81.51733719685035 },
+        { "x": 4, "y": 78.80897278925454 }
+      ]
+    }
+  }
+]
+```
+
+### How to test
+
+As a POC there is a test added for the controller. The tests can be exectued with the following command:
+
+```bash
+make test
+```

@@ -6,10 +6,10 @@ import (
 )
 
 type FavoriteView struct {
-	AssetId     string `json:"asset_id"`
-	Type        string `json:"type"`
-	Description string `json:"description"`
-	Data        interface{}
+	AssetId     string      `json:"asset_id"`
+	Type        string      `json:"type"`
+	Description string      `json:"description"`
+	Data        interface{} `json:"data"`
 }
 
 type FavoriteViewActionResponse struct {

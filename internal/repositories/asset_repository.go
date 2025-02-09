@@ -78,7 +78,7 @@ func insight(assetId string) models.Asset {
 		Type:        "insight",
 		Description: "User Insight",
 		StructuredData: models.Insight{
-			Text: insights[rand.Intn(3)],
+			Text: insights[rand.Intn(2)],
 		},
 	}
 }
